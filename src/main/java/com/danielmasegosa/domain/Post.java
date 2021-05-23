@@ -9,11 +9,6 @@ public final class Post {
     private final String message;
     private Instant creationDate;
 
-    public Post(final User user, final String message) {
-        this.user = user;
-        this.message = message;
-    }
-
     public Post(final User user, final String message, final Instant creationDate) {
         this.user = user;
         this.message = message;

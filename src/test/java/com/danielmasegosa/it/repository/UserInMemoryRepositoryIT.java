@@ -1,4 +1,4 @@
-package com.danielmasegosa.it;
+package com.danielmasegosa.it.console;
 
 import com.danielmasegosa.domain.Post;
 import com.danielmasegosa.domain.User;
