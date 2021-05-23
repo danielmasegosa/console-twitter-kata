@@ -1,4 +1,4 @@
-package com.danielmasegosa.infrastructure.console.input.dto;
+package com.danielmasegosa.infrastructure.terminal.commands.dto;
 
 import com.danielmasegosa.application.commands.PostCommand;
 

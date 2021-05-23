@@ -1,4 +1,4 @@
-package com.danielmasegosa.infrastructure.console.input;
+package com.danielmasegosa.infrastructure.terminal.commands;
 
 public final class CommandExecutor {
 

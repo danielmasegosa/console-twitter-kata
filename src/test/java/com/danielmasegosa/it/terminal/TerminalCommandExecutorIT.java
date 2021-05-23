@@ -1,4 +1,4 @@
-package com.danielmasegosa.it.console;
+package com.danielmasegosa.it.terminal;
 
 import com.danielmasegosa.application.MessagesRetriever;
 import com.danielmasegosa.application.PostCreator;
@@ -8,18 +8,19 @@ import com.danielmasegosa.domain.Post;
 import com.danielmasegosa.domain.User;
 import com.danielmasegosa.domain.repository.UserRepository;
 import com.danielmasegosa.domain.time.Clock;
-import com.danielmasegosa.infrastructure.console.input.CommandExecutor;
-import com.danielmasegosa.infrastructure.console.input.CommandGenerator;
 import com.danielmasegosa.infrastructure.persistence.InMemoryRepository;
 import com.danielmasegosa.infrastructure.persistence.InMemoryUserRepository;
 import com.danielmasegosa.infrastructure.persistence.document.PostDocument;
 import com.danielmasegosa.infrastructure.persistence.document.UserDocument;
+import com.danielmasegosa.infrastructure.terminal.commands.CommandExecutor;
+import com.danielmasegosa.infrastructure.terminal.commands.CommandGenerator;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.Scanner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -38,7 +39,9 @@ public final class TerminalCommandExecutorIT {
     private final UserSubscriber userSubscriber = new UserSubscriber(userRepository);
     private final UserWallRetriever userWallRetriever = new UserWallRetriever(userRepository);
     private final UserWallRetriever userWallRetrieverSpy = spy(userWallRetriever);
-    private final CommandGenerator commandGenerator = new CommandGenerator(postCreator, messagesRetrieverSpy, userSubscriber, userWallRetrieverSpy);
+    private final Scanner scanner = new Scanner(System.in);
+    private final Terminal terminal = new Terminal(clock, scanner);
+    private final CommandGenerator commandGenerator = new CommandGenerator(postCreator, messagesRetrieverSpy, userSubscriber, userWallRetrieverSpy, terminal);
     private final CommandExecutor subject = new CommandExecutor(commandGenerator);
 
     @AfterEach

@@ -1,9 +1,10 @@
-package com.danielmasegosa.infrastructure.console.input;
+package com.danielmasegosa.infrastructure.terminal.commands;
 
 import com.danielmasegosa.application.MessagesRetriever;
 import com.danielmasegosa.application.PostCreator;
 import com.danielmasegosa.application.UserSubscriber;
 import com.danielmasegosa.application.UserWallRetriever;
+import com.danielmasegosa.it.terminal.Terminal;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -15,7 +16,8 @@ public final class TerminalCommandGeneratorTest {
     public MessagesRetriever messagesRetriever = mock(MessagesRetriever.class);
     public UserSubscriber userSubscriber = mock(UserSubscriber.class);
     public UserWallRetriever userWallRetriever = mock(UserWallRetriever.class);
-    public final CommandGenerator subject = new CommandGenerator(postCreator, messagesRetriever, userSubscriber, userWallRetriever);
+    public Terminal terminal = mock(Terminal.class);
+    public final CommandGenerator subject = new CommandGenerator(postCreator, messagesRetriever, userSubscriber, userWallRetriever, terminal);
 
     @Test
     void should_generate_a_post_message_command() {

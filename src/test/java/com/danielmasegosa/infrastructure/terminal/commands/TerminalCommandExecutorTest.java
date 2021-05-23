@@ -1,4 +1,4 @@
-package com.danielmasegosa.infrastructure.console.input;
+package com.danielmasegosa.infrastructure.terminal.commands;
 
 import com.danielmasegosa.application.MessagesRetriever;
 import com.danielmasegosa.application.PostCreator;
@@ -8,10 +8,11 @@ import com.danielmasegosa.application.commands.PostCommand;
 import com.danielmasegosa.domain.User;
 import com.danielmasegosa.domain.repository.UserRepository;
 import com.danielmasegosa.domain.time.Clock;
-import com.danielmasegosa.infrastructure.console.input.dto.PostMessageDto;
-import com.danielmasegosa.infrastructure.console.input.dto.RequestWallDto;
-import com.danielmasegosa.infrastructure.console.input.dto.RetrieveMessagesDto;
-import com.danielmasegosa.infrastructure.console.input.dto.SubscribtioDto;
+import com.danielmasegosa.infrastructure.terminal.commands.dto.PostMessageDto;
+import com.danielmasegosa.infrastructure.terminal.commands.dto.RequestWallDto;
+import com.danielmasegosa.infrastructure.terminal.commands.dto.RetrieveMessagesDto;
+import com.danielmasegosa.infrastructure.terminal.commands.dto.SubscribtioDto;
+import com.danielmasegosa.it.terminal.Terminal;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.BDDMockito.given;
@@ -21,6 +22,7 @@ public final class TerminalCommandExecutorTest {
 
     private final CommandGenerator commandGenerator = mock(CommandGenerator.class);
     private final CommandExecutor subject = new CommandExecutor(commandGenerator);
+    private final Terminal terminal = mock(Terminal.class);
 
     @Test
     void should_execute_post_message_use_case() {
@@ -47,7 +49,7 @@ public final class TerminalCommandExecutorTest {
 
         final UserRepository userRepository = mock(UserRepository.class);
         final MessagesRetriever messagesRetriever = spy(new MessagesRetriever(userRepository));
-        final TerminalCommand readMessagesTerminalCommand = new ReadMessagesTerminalCommand(new RetrieveMessagesDto("aUserName"), messagesRetriever);
+        final TerminalCommand readMessagesTerminalCommand = new ReadMessagesTerminalCommand(new RetrieveMessagesDto("aUserName"), messagesRetriever, terminal);
         given(commandGenerator.execute(readMessagesCommand)).willReturn(readMessagesTerminalCommand);
 
         // when
@@ -81,7 +83,7 @@ public final class TerminalCommandExecutorTest {
 
         final UserRepository userRepository = mock(UserRepository.class);
         final UserWallRetriever userWallRetriever = spy(new UserWallRetriever(userRepository));
-        final TerminalCommand viewWallTerminalCommand = new ViewWallTerminalCommand(new RequestWallDto("aUserName"), userWallRetriever);
+        final TerminalCommand viewWallTerminalCommand = new ViewWallTerminalCommand(new RequestWallDto("aUserName"), userWallRetriever, terminal);
         given(commandGenerator.execute(requestWallCommand)).willReturn(viewWallTerminalCommand);
 
         // when

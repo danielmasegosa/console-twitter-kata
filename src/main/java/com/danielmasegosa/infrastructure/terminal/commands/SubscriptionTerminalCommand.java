@@ -1,8 +1,8 @@
-package com.danielmasegosa.infrastructure.console.input;
+package com.danielmasegosa.infrastructure.terminal.commands;
 
 import com.danielmasegosa.application.UserSubscriber;
 import com.danielmasegosa.domain.User;
-import com.danielmasegosa.infrastructure.console.input.dto.SubscribtioDto;
+import com.danielmasegosa.infrastructure.terminal.commands.dto.SubscribtioDto;
 
 public class SubscriptionTerminalCommand implements TerminalCommand {
 

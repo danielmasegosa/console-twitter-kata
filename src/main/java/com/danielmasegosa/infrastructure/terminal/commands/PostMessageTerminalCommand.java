@@ -1,7 +1,7 @@
-package com.danielmasegosa.infrastructure.console.input;
+package com.danielmasegosa.infrastructure.terminal.commands;
 
 import com.danielmasegosa.application.PostCreator;
-import com.danielmasegosa.infrastructure.console.input.dto.PostMessageDto;
+import com.danielmasegosa.infrastructure.terminal.commands.dto.PostMessageDto;
 
 public class PostMessageTerminalCommand implements TerminalCommand {
 

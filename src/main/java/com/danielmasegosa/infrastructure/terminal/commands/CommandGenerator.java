@@ -1,13 +1,14 @@
-package com.danielmasegosa.infrastructure.console.input;
+package com.danielmasegosa.infrastructure.terminal.commands;
 
 import com.danielmasegosa.application.MessagesRetriever;
 import com.danielmasegosa.application.PostCreator;
 import com.danielmasegosa.application.UserSubscriber;
 import com.danielmasegosa.application.UserWallRetriever;
-import com.danielmasegosa.infrastructure.console.input.dto.PostMessageDto;
-import com.danielmasegosa.infrastructure.console.input.dto.RequestWallDto;
-import com.danielmasegosa.infrastructure.console.input.dto.RetrieveMessagesDto;
-import com.danielmasegosa.infrastructure.console.input.dto.SubscribtioDto;
+import com.danielmasegosa.infrastructure.terminal.commands.dto.PostMessageDto;
+import com.danielmasegosa.infrastructure.terminal.commands.dto.RequestWallDto;
+import com.danielmasegosa.infrastructure.terminal.commands.dto.RetrieveMessagesDto;
+import com.danielmasegosa.infrastructure.terminal.commands.dto.SubscribtioDto;
+import com.danielmasegosa.it.terminal.Terminal;
 
 import static java.util.regex.Pattern.matches;
 
@@ -24,13 +25,15 @@ public class CommandGenerator {
     private MessagesRetriever messagesRetriever;
     private UserSubscriber userSubscriber;
     private UserWallRetriever userWallRetriever;
+    private Terminal terminal;
 
     public CommandGenerator(final PostCreator postCreator, final MessagesRetriever messagesRetriever,
-                            final UserSubscriber userSubscriber, final UserWallRetriever userWallRetriever) {
+                            final UserSubscriber userSubscriber, final UserWallRetriever userWallRetriever, final Terminal terminal) {
         this.postCreator = postCreator;
         this.messagesRetriever = messagesRetriever;
         this.userSubscriber = userSubscriber;
         this.userWallRetriever = userWallRetriever;
+        this.terminal = terminal;
     }
 
     public TerminalCommand execute(final String command) {
@@ -47,10 +50,10 @@ public class CommandGenerator {
         } else if(matches(VIEW_WALL_COMMAND_PATTERN, command)){
             final String[] commandData = command.split(RETRIEVE_WALL_DATA_DELIMITER);
             final var userName = commandData[0];
-            return new ViewWallTerminalCommand(new RequestWallDto(userName.trim()), userWallRetriever);
+            return new ViewWallTerminalCommand(new RequestWallDto(userName.trim()), userWallRetriever, terminal);
         } else {
             final var userName = command.trim();
-            return new ReadMessagesTerminalCommand(new RetrieveMessagesDto(userName), messagesRetriever);
+            return new ReadMessagesTerminalCommand(new RetrieveMessagesDto(userName), messagesRetriever, terminal);
         }
     }
 }
