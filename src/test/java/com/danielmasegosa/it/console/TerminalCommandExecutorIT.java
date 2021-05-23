@@ -83,11 +83,7 @@ public final class TerminalCommandExecutorIT {
         // given
         final String followsCommand = "Charlie follows Alice";
 
-        given(clock.now()).willReturn(Instant.parse("2021-05-22T00:05:00Z"));
-        final String registerAlicePostCommand = "Alice -> I love the weather today";
-        subject.execute(registerAlicePostCommand);
-        final String registerPostCommand = "Charlie -> I'm in New York today! Anyone want to have a coffee?";
-        subject.execute(registerPostCommand);
+        operationToAllowSubscriptions();
 
         // when
         subject.execute(followsCommand);
@@ -99,22 +95,20 @@ public final class TerminalCommandExecutorIT {
         assertThat(userDocument.getSubscribedTo()).contains("Alice");
     }
 
+    private void operationToAllowSubscriptions() {
+        given(clock.now()).willReturn(Instant.parse("2021-05-22T00:05:00Z"));
+        final String registerAlicePostCommand = "Alice -> I love the weather today";
+        subject.execute(registerAlicePostCommand);
+        final String registerPostCommand = "Charlie -> I'm in New York today! Anyone want to have a coffee?";
+        subject.execute(registerPostCommand);
+    }
+
     @Test
     void should_retrieve_the_wall_of_a_user() {
         // given
         final String wallCommand = "Charlie wall";
 
-        given(clock.now()).willReturn(Instant.parse("2021-05-22T00:05:00Z"));
-        final String followeePost = "Alice -> I love the weather today";
-        subject.execute(followeePost);
-        given(clock.now()).willReturn(Instant.parse("2021-05-22T00:15:00Z"));
-        final String anotherFolloweePost = "Alice -> I love the weather today again";
-        subject.execute(anotherFolloweePost);
-        given(clock.now()).willReturn(Instant.parse("2021-05-22T00:20:00Z"));
-        final String aPost = "Charlie -> I'm in New York today! Anyone want to have a coffee?";
-        subject.execute(aPost);
-        final String followsCommand = "Charlie follows Alice";
-        subject.execute(followsCommand);
+        operationsToAllowRequestAUserWall();
 
         // when
         subject.execute(wallCommand);
@@ -126,5 +120,19 @@ public final class TerminalCommandExecutorIT {
                 new Post(new User("Alice"), "I love the weather today again", Instant.parse("2021-05-22T00:15:00Z")),
                 new Post(new User("Charlie"), "I'm in New York today! Anyone want to have a coffee?", Instant.parse("2021-05-22T00:20:00Z"))
         );
+    }
+
+    private void operationsToAllowRequestAUserWall() {
+        given(clock.now()).willReturn(Instant.parse("2021-05-22T00:05:00Z"));
+        final String followeePost = "Alice -> I love the weather today";
+        subject.execute(followeePost);
+        given(clock.now()).willReturn(Instant.parse("2021-05-22T00:15:00Z"));
+        final String anotherFolloweePost = "Alice -> I love the weather today again";
+        subject.execute(anotherFolloweePost);
+        given(clock.now()).willReturn(Instant.parse("2021-05-22T00:20:00Z"));
+        final String aPost = "Charlie -> I'm in New York today! Anyone want to have a coffee?";
+        subject.execute(aPost);
+        final String followsCommand = "Charlie follows Alice";
+        subject.execute(followsCommand);
     }
 }
