@@ -45,7 +45,10 @@ public final class InMemoryUserRepository implements UserRepository {
                 var userPosts = new ArrayList<>(userDocument.getPosts());
                 userDocument.getSubscribedTo()
                     .forEach(followeeName -> userPosts.addAll(inMemoryRepository.findPostsByUserName(followeeName)));
-                return userPosts.stream().map(PostDocument::toDomain).collect(Collectors.toList());
+                return userPosts.stream()
+                        .map(PostDocument::toDomain)
+                        .sorted(Comparator.comparing(Post::getCreationDate))
+                        .collect(Collectors.toList());
             })
             .orElse(Collections.emptyList());
     }
