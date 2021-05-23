@@ -8,17 +8,39 @@ import com.danielmasegosa.domain.repository.UserRepository;
 import com.danielmasegosa.domain.time.Clock;
 import com.danielmasegosa.infrastructure.persistence.InMemoryRepository;
 import com.danielmasegosa.infrastructure.persistence.InMemoryUserRepository;
+import com.danielmasegosa.infrastructure.terminal.Terminal;
 import com.danielmasegosa.infrastructure.terminal.commands.CommandExecutor;
 import com.danielmasegosa.infrastructure.terminal.commands.CommandGenerator;
 import com.danielmasegosa.infrastructure.time.InternalClock;
-import com.danielmasegosa.it.terminal.Terminal;
 
 import java.util.Scanner;
 
 public class Application {
 
+    private final Terminal terminal;
+    private final CommandExecutor commandExecutor;
+
+    public Application(final Terminal terminal, final CommandExecutor commandExecutor) {
+        this.terminal = terminal;
+        this.commandExecutor = commandExecutor;
+    }
+
+    public static final String QUIT_COMMAND = "quit";
 
     public static void main(String[] args) {
+        console().initTerminal();
+    }
+
+    private void initTerminal() {
+        String terminalCommand = terminal.readLine();
+        while (!QUIT_COMMAND.equals(terminalCommand)) {
+            commandExecutor.execute(terminalCommand);
+            terminalCommand = terminal.readLine();
+        }
+        terminal.write("Bye");
+    }
+
+    public static Application console() {
         final Clock clock = new InternalClock();
         final Scanner scanner = new Scanner(System.in);
         final Terminal terminal = new Terminal(clock, scanner);
@@ -31,12 +53,6 @@ public class Application {
         final CommandGenerator commandGenerator = new CommandGenerator(postCreator, messagesRetriever, userSubscriber, userWallRetriever, terminal);
         final CommandExecutor commandExecutor = new CommandExecutor(commandGenerator);
 
-        String terminalCommand = terminal.readLine();
-        while (!"quit".equals(terminalCommand)){
-            commandExecutor.execute(terminalCommand);
-            terminalCommand = terminal.readLine();
-        }
-        terminal.write("Out");
-
+        return new Application(terminal, commandExecutor);
     }
 }
