@@ -1,7 +1,7 @@
 package com.danielmasegosa.application;
 
 import com.danielmasegosa.domain.Post;
-import com.danielmasegosa.domain.UserRepository;
+import com.danielmasegosa.domain.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -24,6 +24,6 @@ public final class PostCreatorTest {
         subject.execute(aPost);
 
         // then
-        verify(userRepository).save(aPost);
+        verify(userRepository).savePost(aPost);
     }
 }

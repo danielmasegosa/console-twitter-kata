@@ -1,7 +1,7 @@
 package com.danielmasegosa.application;
 
 import com.danielmasegosa.domain.Post;
-import com.danielmasegosa.domain.UserRepository;
+import com.danielmasegosa.domain.repository.UserRepository;
 
 public final class PostMessageUseCase {
 
@@ -12,6 +12,6 @@ public final class PostMessageUseCase {
     }
 
     public void execute(final Post post) {
-        userRepository.save(post);
+        userRepository.savePost(post);
     }
 }

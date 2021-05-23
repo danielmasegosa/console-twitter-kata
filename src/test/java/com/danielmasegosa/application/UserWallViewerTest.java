@@ -1,13 +1,13 @@
 package com.danielmasegosa.application;
 
 import com.danielmasegosa.domain.Post;
-import com.danielmasegosa.domain.UserRepository;
+import com.danielmasegosa.domain.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.time.Instant;
-import java.util.Set;
+import java.util.List;
 
 import static com.danielmasegosa.fixtures.UserFixture.createUser;
 import static com.danielmasegosa.fixtures.UserFixture.user;
@@ -24,7 +24,7 @@ public final class UserWallViewerTest {
         final var aUser = user;
         final var bob = createUser("Bob");
         final var alice = createUser("Alice");
-        final var aUserWall = Set.of(
+        final var aUserWall = List.of(
                 new Post(bob, "A Bob message", Instant.parse("2021-05-22T00:05:00Z")),
                 new Post(bob, "A Bob message", Instant.parse("2021-05-22T12:00:00Z")),
                 new Post(alice, "An Alice message", Instant.parse("2021-05-22T00:10:00Z"))

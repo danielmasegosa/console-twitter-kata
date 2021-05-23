@@ -1,7 +1,7 @@
 package com.danielmasegosa.application;
 
 import com.danielmasegosa.domain.User;
-import com.danielmasegosa.domain.UserRepository;
+import com.danielmasegosa.domain.repository.UserRepository;
 
 public final class UserSubscriber {
 
@@ -12,6 +12,6 @@ public final class UserSubscriber {
     }
 
     public void execute(final User follower, final User followee) {
-        userRepository.subscribeToUser(follower, followee);
+        userRepository.saveSubscription(follower, followee);
     }
 }

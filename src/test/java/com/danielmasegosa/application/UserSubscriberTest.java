@@ -1,6 +1,6 @@
 package com.danielmasegosa.application;
 
-import com.danielmasegosa.domain.UserRepository;
+import com.danielmasegosa.domain.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 
 import static com.danielmasegosa.fixtures.UserFixture.createUser;
@@ -22,6 +22,6 @@ public final class UserSubscriberTest {
         subject.execute(aFollower, aFollowee);
 
         // then
-        verify(userRepository).subscribeToUser(aFollower, aFollowee);
+        verify(userRepository).saveSubscription(aFollower, aFollowee);
     }
 }

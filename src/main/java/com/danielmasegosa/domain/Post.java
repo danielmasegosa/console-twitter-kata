@@ -7,17 +7,17 @@ public final class Post {
 
     private final User user;
     private final String message;
-    private Instant creationTime;
+    private Instant creationDate;
 
     public Post(final User user, final String message) {
         this.user = user;
         this.message = message;
     }
 
-    public Post(final User user, final String message, final Instant creationTime) {
+    public Post(final User user, final String message, final Instant creationDate) {
         this.user = user;
         this.message = message;
-        this.creationTime = creationTime;
+        this.creationDate = creationDate;
     }
 
     public User getUser() {
@@ -28,8 +28,8 @@ public final class Post {
         return message;
     }
 
-    public Instant getCreationTime() {
-        return creationTime;
+    public Instant getCreationDate() {
+        return creationDate;
     }
 
     @Override
@@ -37,12 +37,12 @@ public final class Post {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Post post = (Post) o;
-        return Objects.equals(user, post.user) && Objects.equals(message, post.message) && Objects.equals(creationTime, post.creationTime);
+        return Objects.equals(user, post.user) && Objects.equals(message, post.message) && Objects.equals(creationDate, post.creationDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(user, message, creationTime);
+        return Objects.hash(user, message, creationDate);
     }
 
     @Override
@@ -50,7 +50,7 @@ public final class Post {
         return "Post{" +
                 "user=" + user +
                 ", message='" + message + '\'' +
-                ", creationTime=" + creationTime +
+                ", creationDate=" + creationDate +
                 '}';
     }
 }
