@@ -1,10 +1,8 @@
-package com.danielmasegosa.persistence;
+package com.danielmasegosa.infrastructure.persistence;
 
 import com.danielmasegosa.domain.Post;
 import com.danielmasegosa.domain.User;
 import com.danielmasegosa.domain.repository.UserRepository;
-import com.danielmasegosa.infrastructure.persistence.InMemoryRepository;
-import com.danielmasegosa.infrastructure.persistence.InMemoryUserRepository;
 import com.danielmasegosa.infrastructure.persistence.document.PostDocument;
 import com.danielmasegosa.infrastructure.persistence.document.UserDocument;
 import org.junit.jupiter.api.Test;
