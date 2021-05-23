@@ -3,7 +3,7 @@ package com.danielmasegosa.application;
 import com.danielmasegosa.domain.User;
 import com.danielmasegosa.domain.repository.UserRepository;
 
-public final class UserSubscriber {
+public class UserSubscriber {
 
     private UserRepository userRepository;
 

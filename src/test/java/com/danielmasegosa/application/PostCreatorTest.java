@@ -1,9 +1,9 @@
 package com.danielmasegosa.application;
 
 import com.danielmasegosa.application.commands.PostCommand;
-import com.danielmasegosa.domain.Clock;
 import com.danielmasegosa.domain.Post;
 import com.danielmasegosa.domain.repository.UserRepository;
+import com.danielmasegosa.domain.time.Clock;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
@@ -17,7 +17,7 @@ public final class PostCreatorTest {
 
     private final UserRepository userRepository = mock(UserRepository.class);
     private final Clock clock = mock(Clock.class);
-    private final PostMessageUseCase subject = new PostMessageUseCase(userRepository, clock);
+    private final PostCreator subject = new PostCreator(userRepository, clock);
 
     @Test
     void should_save_a_posted_message() {

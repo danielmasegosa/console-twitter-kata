@@ -13,10 +13,10 @@ import static com.danielmasegosa.fixtures.UserFixture.createUser;
 import static com.danielmasegosa.fixtures.UserFixture.user;
 import static org.mockito.BDDMockito.given;
 
-public final class UserWallViewerTest {
+public final class UserWallRetrieverTest {
 
     private final UserRepository userRepository = Mockito.mock(UserRepository.class);
-    private final UserWallViewer subject = new UserWallViewer(userRepository);
+    private final UserWallRetriever subject = new UserWallRetriever(userRepository);
 
     @Test
     void should_retrieve_all_the_messages_from_the_users_that_an_user_is_subscribed_to() {

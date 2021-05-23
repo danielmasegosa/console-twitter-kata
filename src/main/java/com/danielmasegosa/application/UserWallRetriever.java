@@ -6,11 +6,11 @@ import com.danielmasegosa.domain.repository.UserRepository;
 
 import java.util.List;
 
-public final class UserWallViewer {
+public class UserWallRetriever {
 
     private UserRepository userRepository;
 
-    public UserWallViewer(final UserRepository userRepository) {
+    public UserWallRetriever(final UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

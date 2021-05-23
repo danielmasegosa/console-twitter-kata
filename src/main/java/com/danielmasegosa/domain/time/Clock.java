@@ -1,4 +1,4 @@
-package com.danielmasegosa.domain;
+package com.danielmasegosa.domain.time;
 
 import java.time.Instant;
 

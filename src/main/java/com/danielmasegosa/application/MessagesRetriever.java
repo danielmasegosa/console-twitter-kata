@@ -6,7 +6,7 @@ import com.danielmasegosa.domain.repository.UserRepository;
 
 import java.util.List;
 
-public final class MessagesRetriever {
+public class MessagesRetriever {
 
     private UserRepository userRepository;
 
