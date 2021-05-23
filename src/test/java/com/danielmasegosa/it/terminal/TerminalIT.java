@@ -3,6 +3,7 @@ package com.danielmasegosa.it.terminal;
 import com.danielmasegosa.domain.Post;
 import com.danielmasegosa.domain.User;
 import com.danielmasegosa.domain.time.Clock;
+import com.danielmasegosa.infrastructure.terminal.Terminal;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

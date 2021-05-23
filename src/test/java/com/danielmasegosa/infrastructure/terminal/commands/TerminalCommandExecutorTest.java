@@ -8,11 +8,11 @@ import com.danielmasegosa.application.commands.PostCommand;
 import com.danielmasegosa.domain.User;
 import com.danielmasegosa.domain.repository.UserRepository;
 import com.danielmasegosa.domain.time.Clock;
+import com.danielmasegosa.infrastructure.terminal.Terminal;
 import com.danielmasegosa.infrastructure.terminal.commands.dto.PostMessageDto;
 import com.danielmasegosa.infrastructure.terminal.commands.dto.RequestWallDto;
 import com.danielmasegosa.infrastructure.terminal.commands.dto.RetrieveMessagesDto;
 import com.danielmasegosa.infrastructure.terminal.commands.dto.SubscribtioDto;
-import com.danielmasegosa.it.terminal.Terminal;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.BDDMockito.given;

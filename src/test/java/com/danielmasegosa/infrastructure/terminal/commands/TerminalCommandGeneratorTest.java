@@ -4,7 +4,7 @@ import com.danielmasegosa.application.MessagesRetriever;
 import com.danielmasegosa.application.PostCreator;
 import com.danielmasegosa.application.UserSubscriber;
 import com.danielmasegosa.application.UserWallRetriever;
-import com.danielmasegosa.it.terminal.Terminal;
+import com.danielmasegosa.infrastructure.terminal.Terminal;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;

@@ -4,11 +4,11 @@ import com.danielmasegosa.application.MessagesRetriever;
 import com.danielmasegosa.application.PostCreator;
 import com.danielmasegosa.application.UserSubscriber;
 import com.danielmasegosa.application.UserWallRetriever;
+import com.danielmasegosa.infrastructure.terminal.Terminal;
 import com.danielmasegosa.infrastructure.terminal.commands.dto.PostMessageDto;
 import com.danielmasegosa.infrastructure.terminal.commands.dto.RequestWallDto;
 import com.danielmasegosa.infrastructure.terminal.commands.dto.RetrieveMessagesDto;
 import com.danielmasegosa.infrastructure.terminal.commands.dto.SubscribtioDto;
-import com.danielmasegosa.it.terminal.Terminal;
 
 import static java.util.regex.Pattern.matches;
 

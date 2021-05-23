@@ -1,4 +1,4 @@
-package com.danielmasegosa.it.terminal;
+package com.danielmasegosa.infrastructure.terminal;
 
 import com.danielmasegosa.domain.Post;
 import com.danielmasegosa.domain.time.Clock;
@@ -28,6 +28,7 @@ public class Terminal {
     }
 
     public String readLine() {
+        System.out.println("Write 'quit' to exit");
         System.out.print("> ");
         return scanner.nextLine();
     }

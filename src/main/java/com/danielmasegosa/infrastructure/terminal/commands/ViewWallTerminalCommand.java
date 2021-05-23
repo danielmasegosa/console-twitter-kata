@@ -2,8 +2,8 @@ package com.danielmasegosa.infrastructure.terminal.commands;
 
 import com.danielmasegosa.application.UserWallRetriever;
 import com.danielmasegosa.domain.User;
+import com.danielmasegosa.infrastructure.terminal.Terminal;
 import com.danielmasegosa.infrastructure.terminal.commands.dto.RequestWallDto;
-import com.danielmasegosa.it.terminal.Terminal;
 
 public class ViewWallTerminalCommand implements TerminalCommand {
 

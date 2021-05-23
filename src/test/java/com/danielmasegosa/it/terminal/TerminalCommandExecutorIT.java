@@ -12,6 +12,7 @@ import com.danielmasegosa.infrastructure.persistence.InMemoryRepository;
 import com.danielmasegosa.infrastructure.persistence.InMemoryUserRepository;
 import com.danielmasegosa.infrastructure.persistence.document.PostDocument;
 import com.danielmasegosa.infrastructure.persistence.document.UserDocument;
+import com.danielmasegosa.infrastructure.terminal.Terminal;
 import com.danielmasegosa.infrastructure.terminal.commands.CommandExecutor;
 import com.danielmasegosa.infrastructure.terminal.commands.CommandGenerator;
 import org.junit.jupiter.api.AfterEach;
