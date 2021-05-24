@@ -78,6 +78,18 @@ public final class TerminalCommandExecutorIT {
     }
 
     @Test
+    void should_print_an_error_message_when_the_username_is_not_present_in_post_message_command() {
+        // given
+        final String registerPostCommandWithOutUser = "-> I love the weather today";
+
+        // when
+        subject.execute(registerPostCommandWithOutUser);
+
+        // then
+        verify(terminalSpy).writeError("User cannot be empty");
+    }
+
+    @Test
     void should_print_an_error_message_when_the_message_is_empty_in_post_message_command() {
         // given
         final String registerPostCommandWithOutUser = " Alice -> ";

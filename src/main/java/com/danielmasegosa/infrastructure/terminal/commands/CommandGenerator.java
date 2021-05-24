@@ -14,7 +14,7 @@ import static java.util.regex.Pattern.matches;
 
 public class CommandGenerator {
 
-    private static final String POST_MESSAGE_COMMAND_PATTERN = "(.*)\\s->\\s(.*)";
+    private static final String POST_MESSAGE_COMMAND_PATTERN = "((.*)\\s|(.*))(->)\\s(.*)";
     public static final String POST_MESSAGE_DATA_DELIMITER = "->";
     private static final String SUBSCRIBE_COMMAND_PATTERN = "(.*)\\sfollows\\s(.*)";
     public static final String SUBSCRIBE_DATA_DELIMITER = "follows";
