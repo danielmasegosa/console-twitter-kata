@@ -16,7 +16,7 @@ public class CommandGenerator {
 
     private static final String POST_MESSAGE_COMMAND_PATTERN = "((.*)\\s|(.*))(->)\\s(.*)";
     public static final String POST_MESSAGE_DATA_DELIMITER = "->";
-    private static final String SUBSCRIBE_COMMAND_PATTERN = "(.*)\\sfollows\\s(.*)";
+    private static final String SUBSCRIBE_COMMAND_PATTERN = "(\\s(.*)|(.*))(follows)(\\s(.*)|(.*))";
     public static final String SUBSCRIBE_DATA_DELIMITER = "follows";
     private static final String VIEW_WALL_COMMAND_PATTERN = "(.*)\\swall";
     public static final String RETRIEVE_WALL_DATA_DELIMITER = "wall";
@@ -46,7 +46,7 @@ public class CommandGenerator {
         } else if(matches(SUBSCRIBE_COMMAND_PATTERN, command)){
             final String[] commandData = command.split(SUBSCRIBE_DATA_DELIMITER);
             final var userName = commandData[0];
-            final var subscribeTo = commandData[1];
+            final var subscribeTo = commandData.length > 1 ? commandData[1]: "";
             final SubscribtioDto subscriptionDto = new SubscribtioDto(userName, subscribeTo);
             return new SubscriptionTerminalCommand(subscriptionDto, userSubscriber, terminal);
         } else if(matches(VIEW_WALL_COMMAND_PATTERN, command)){

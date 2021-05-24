@@ -48,7 +48,9 @@ public final class TerminalCommandExecutorIT {
     @AfterEach
     void tearDown() {
         inMemoryRepository.clear();
+        scanner.close();
     }
+
 
     @Test
     void should_save_a_post() {
@@ -70,6 +72,8 @@ public final class TerminalCommandExecutorIT {
         // given
         final String registerPostCommandWithOutUser = " -> I love the weather today";
 
+        doNothing().when(terminalSpy).writeError(anyString());
+
         // when
         subject.execute(registerPostCommandWithOutUser);
 
@@ -82,6 +86,8 @@ public final class TerminalCommandExecutorIT {
         // given
         final String registerPostCommandWithOutUser = "-> I love the weather today";
 
+        doNothing().when(terminalSpy).writeError(anyString());
+
         // when
         subject.execute(registerPostCommandWithOutUser);
 
@@ -93,6 +99,8 @@ public final class TerminalCommandExecutorIT {
     void should_print_an_error_message_when_the_message_is_empty_in_post_message_command() {
         // given
         final String registerPostCommandWithOutUser = " Alice -> ";
+
+        doNothing().when(terminalSpy).writeError(anyString());
 
         // when
         subject.execute(registerPostCommandWithOutUser);
@@ -140,6 +148,22 @@ public final class TerminalCommandExecutorIT {
         // given
         final String followsCommand = " follows Alice";
 
+        doNothing().when(terminalSpy).writeError(anyString());
+
+        // when
+        subject.execute(followsCommand);
+
+        // then
+        verify(terminalSpy).writeError("Username cannot be empty");
+    }
+
+    @Test
+    void should_print_an_error_message_when_the_username_is_not_present_in_follows_command() {
+        // given
+        final String followsCommand = "follows Alice";
+
+        doNothing().when(terminalSpy).writeError(anyString());
+
         // when
         subject.execute(followsCommand);
 
@@ -151,6 +175,22 @@ public final class TerminalCommandExecutorIT {
     void should_print_an_error_message_when_the_followee_username_is_empty_in_follows_command() {
         // given
         final String followsCommand = "Charlie follows ";
+
+        doNothing().when(terminalSpy).writeError(anyString());
+
+        // when
+        subject.execute(followsCommand);
+
+        // then
+        verify(terminalSpy).writeError("Followee username cannot be empty");
+    }
+
+    @Test
+    void should_print_an_error_message_when_the_followee_username_is_not_present_in_follows_command() {
+        // given
+        final String followsCommand = "Charlie follows";
+
+        doNothing().when(terminalSpy).writeError(anyString());
 
         // when
         subject.execute(followsCommand);
