@@ -1,5 +1,7 @@
 package com.danielmasegosa.infrastructure.terminal.commands.dto;
 
+import com.danielmasegosa.infrastructure.terminal.commands.dto.validation.Notification;
+
 import java.util.Objects;
 
 public final class RequestWallDto {
@@ -7,6 +9,14 @@ public final class RequestWallDto {
 
     public RequestWallDto(final String userName) {
         this.userName = userName;
+    }
+
+    public Notification check() {
+        final Notification note = new Notification();
+        if (userName.isBlank()){
+            note.addError("Username cannot be empty");
+        }
+        return note;
     }
 
     public String getUserName() {

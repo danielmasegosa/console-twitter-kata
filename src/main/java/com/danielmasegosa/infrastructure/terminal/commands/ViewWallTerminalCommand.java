@@ -4,6 +4,7 @@ import com.danielmasegosa.application.UserWallRetriever;
 import com.danielmasegosa.domain.User;
 import com.danielmasegosa.infrastructure.terminal.Terminal;
 import com.danielmasegosa.infrastructure.terminal.commands.dto.RequestWallDto;
+import com.danielmasegosa.infrastructure.terminal.commands.dto.validation.Notification;
 
 public class ViewWallTerminalCommand implements TerminalCommand {
 
@@ -19,6 +20,11 @@ public class ViewWallTerminalCommand implements TerminalCommand {
 
     @Override
     public void execute() {
-        terminal.write(userWallRetriever.execute(new User(requestWallDto.getUserName())));
+        final Notification check = requestWallDto.check();
+        if (check.hasErrors()){
+            terminal.writeErrors(check.getErrors());
+        } else {
+            terminal.write(userWallRetriever.execute(new User(requestWallDto.getUserName().trim())));
+        }
     }
 }

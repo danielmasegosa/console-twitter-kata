@@ -226,6 +226,34 @@ public final class TerminalCommandExecutorIT {
         );
     }
 
+    @Test
+    void should_print_an_error_message_when_the_username_is_empty_in_wall_command() {
+        // given
+        final String wallCommand = " wall";
+
+        doNothing().when(terminalSpy).writeError(anyString());
+
+        // when
+        subject.execute(wallCommand);
+
+        // then
+        verify(terminalSpy).writeError("Username cannot be empty");
+    }
+
+    @Test
+    void should_print_an_error_message_when_the_username_is_not_present_in_wall_command() {
+        // given
+        final String wallCommand = "wall";
+
+        doNothing().when(terminalSpy).writeError(anyString());
+
+        // when
+        subject.execute(wallCommand);
+
+        // then
+        verify(terminalSpy).writeError("Username cannot be empty");
+    }
+
     private void operationsToAllowRequestAUserWall() {
         given(clock.now()).willReturn(Instant.parse("2021-05-22T00:05:00Z"));
         final String followeePost = "Alice -> I love the weather today";
