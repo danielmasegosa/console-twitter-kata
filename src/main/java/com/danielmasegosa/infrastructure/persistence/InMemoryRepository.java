@@ -5,11 +5,10 @@ import com.danielmasegosa.infrastructure.persistence.document.PostDocument;
 import com.danielmasegosa.infrastructure.persistence.document.UserDocument;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class InMemoryRepository {
 
-    private final Map<String, UserDocument> users = new ConcurrentHashMap<>();
+    private final Map<String, UserDocument> users = new HashMap<>();
 
     public Optional<UserDocument> findByUserName(final String user) {
         return Optional.ofNullable(users.get(user));
