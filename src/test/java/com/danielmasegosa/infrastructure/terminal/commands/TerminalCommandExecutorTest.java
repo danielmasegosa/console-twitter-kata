@@ -32,7 +32,7 @@ public final class TerminalCommandExecutorTest {
         final UserRepository userRepository = mock(UserRepository.class);
         final Clock clock = mock(Clock.class);
         final PostCreator postCreatorSpy = spy(new PostCreator(userRepository, clock));
-        final TerminalCommand postMessageTerminalCommand = new PostMessageTerminalCommand(new PostMessageDto("aUserName", "aPostMessage"), postCreatorSpy);
+        final TerminalCommand postMessageTerminalCommand = new PostMessageTerminalCommand(new PostMessageDto("aUserName", "aPostMessage"), postCreatorSpy, terminal);
         given(commandGenerator.execute(postingCommand)).willReturn(postMessageTerminalCommand);
 
         // when
@@ -66,7 +66,7 @@ public final class TerminalCommandExecutorTest {
 
         final UserRepository userRepository = mock(UserRepository.class);
         final UserSubscriber userSubscriber = spy(new UserSubscriber(userRepository));
-        final TerminalCommand subscriptionTerminalCommand = new SubscriptionTerminalCommand(new SubscribtioDto("aUserName", "subscribeTo"), userSubscriber);
+        final TerminalCommand subscriptionTerminalCommand = new SubscriptionTerminalCommand(new SubscribtioDto("aUserName", "subscribeTo"), userSubscriber, terminal);
         given(commandGenerator.execute(subscribeCommand)).willReturn(subscriptionTerminalCommand);
 
         // when

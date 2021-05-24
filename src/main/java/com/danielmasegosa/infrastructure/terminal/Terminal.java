@@ -32,6 +32,14 @@ public class Terminal {
         System.out.println(text);
     }
 
+    public void writeErrors(final List<String> errors) {
+        errors.forEach(this::writeError);
+    }
+
+    public void writeError(final String errorText) {
+        System.err.println(errorText);
+    }
+
     private void write(final Post post) {
         System.out.println(formatPost(post));
     }

@@ -1,5 +1,7 @@
 package com.danielmasegosa.infrastructure.terminal.commands.dto;
 
+import com.danielmasegosa.infrastructure.terminal.commands.dto.validation.Notification;
+
 import java.util.Objects;
 
 public final class SubscribtioDto {
@@ -9,6 +11,17 @@ public final class SubscribtioDto {
     public SubscribtioDto(final String userName, final String subscribeTo) {
         this.userName = userName;
         this.subscribeTo = subscribeTo;
+    }
+
+    public Notification check() {
+        final Notification note = new Notification();
+        if (userName.isBlank()){
+            note.addError("Username cannot be empty");
+        }
+        if (subscribeTo.isBlank()){
+            note.addError("Followee username cannot be empty");
+        }
+        return note;
     }
 
     public String getUserName() {

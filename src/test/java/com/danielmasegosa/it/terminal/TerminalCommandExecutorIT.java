@@ -26,8 +26,7 @@ import java.util.Scanner;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.*;
 
 public final class TerminalCommandExecutorIT {
 
@@ -42,7 +41,8 @@ public final class TerminalCommandExecutorIT {
     private final UserWallRetriever userWallRetrieverSpy = spy(userWallRetriever);
     private final Scanner scanner = new Scanner(System.in);
     private final Terminal terminal = new Terminal(clock, scanner);
-    private final CommandGenerator commandGenerator = new CommandGenerator(postCreator, messagesRetrieverSpy, userSubscriber, userWallRetrieverSpy, terminal);
+    private final Terminal terminalSpy = spy(terminal);
+    private final CommandGenerator commandGenerator = new CommandGenerator(postCreator, messagesRetrieverSpy, userSubscriber, userWallRetrieverSpy, terminalSpy);
     private final CommandExecutor subject = new CommandExecutor(commandGenerator);
 
     @AfterEach
@@ -63,6 +63,30 @@ public final class TerminalCommandExecutorIT {
         // then
         final List<PostDocument> alicePosts = inMemoryRepository.findPostsByUserName("Alice");
         assertThat(alicePosts).contains(new PostDocument("Alice", "I love the weather today", Instant.parse("2021-05-22T00:05:00Z")));
+    }
+
+    @Test
+    void should_print_an_error_message_when_the_username_is_empty_in_post_message_command() {
+        // given
+        final String registerPostCommandWithOutUser = " -> I love the weather today";
+
+        // when
+        subject.execute(registerPostCommandWithOutUser);
+
+        // then
+        verify(terminalSpy).writeError("User cannot be empty");
+    }
+
+    @Test
+    void should_print_an_error_message_when_the_message_is_empty_in_post_message_command() {
+        // given
+        final String registerPostCommandWithOutUser = " Alice -> ";
+
+        // when
+        subject.execute(registerPostCommandWithOutUser);
+
+        // then
+        verify(terminalSpy).writeError("Message cannot be empty");
     }
 
     @Test
@@ -97,6 +121,30 @@ public final class TerminalCommandExecutorIT {
         assertTrue(maybeUser.isPresent());
         final UserDocument userDocument = maybeUser.get();
         assertThat(userDocument.getSubscribedTo()).contains("Alice");
+    }
+
+    @Test
+    void should_print_an_error_message_when_the_username_is_empty_in_follows_command() {
+        // given
+        final String followsCommand = " follows Alice";
+
+        // when
+        subject.execute(followsCommand);
+
+        // then
+        verify(terminalSpy).writeError("Username cannot be empty");
+    }
+
+    @Test
+    void should_print_an_error_message_when_the_followee_username_is_empty_in_follows_command() {
+        // given
+        final String followsCommand = "Charlie follows ";
+
+        // when
+        subject.execute(followsCommand);
+
+        // then
+        verify(terminalSpy).writeError("Followee username cannot be empty");
     }
 
     private void operationToAllowSubscriptions() {

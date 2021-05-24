@@ -41,12 +41,14 @@ public class CommandGenerator {
             final String[] commandData = command.split(POST_MESSAGE_DATA_DELIMITER);
             final var userName = commandData[0];
             final var postMessage = commandData[1];
-            return new PostMessageTerminalCommand(new PostMessageDto(userName, postMessage), postCreator);
+            final PostMessageDto dto = new PostMessageDto(userName, postMessage);
+            return new PostMessageTerminalCommand(dto, postCreator, terminal);
         } else if(matches(SUBSCRIBE_COMMAND_PATTERN, command)){
             final String[] commandData = command.split(SUBSCRIBE_DATA_DELIMITER);
             final var userName = commandData[0];
             final var subscribeTo = commandData[1];
-            return new SubscriptionTerminalCommand(new SubscribtioDto(userName.trim(), subscribeTo.trim()), userSubscriber);
+            final SubscribtioDto subscriptionDto = new SubscribtioDto(userName, subscribeTo);
+            return new SubscriptionTerminalCommand(subscriptionDto, userSubscriber, terminal);
         } else if(matches(VIEW_WALL_COMMAND_PATTERN, command)){
             final String[] commandData = command.split(RETRIEVE_WALL_DATA_DELIMITER);
             final var userName = commandData[0];

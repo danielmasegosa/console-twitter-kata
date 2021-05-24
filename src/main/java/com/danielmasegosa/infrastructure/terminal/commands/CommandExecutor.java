@@ -9,6 +9,6 @@ public final class CommandExecutor {
     }
 
     public void execute(final String command) {
-        commandGenerator.execute(command.trim()).execute();
+        commandGenerator.execute(command).execute();
     }
 }

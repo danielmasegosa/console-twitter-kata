@@ -1,6 +1,7 @@
 package com.danielmasegosa.infrastructure.terminal.commands.dto;
 
 import com.danielmasegosa.application.commands.PostCommand;
+import com.danielmasegosa.infrastructure.terminal.commands.dto.validation.Notification;
 
 import java.util.Objects;
 
@@ -11,6 +12,17 @@ public final class PostMessageDto {
     public PostMessageDto(String userName, String postMessage) {
         this.userName = userName;
         this.postMessage = postMessage;
+    }
+
+    public Notification check() {
+        final Notification note = new Notification();
+        if (userName.isBlank()){
+            note.addError("User cannot be empty");
+        }
+        if (postMessage.isBlank()){
+            note.addError("Message cannot be empty");
+        }
+        return note;
     }
 
     public String getUserName() {
