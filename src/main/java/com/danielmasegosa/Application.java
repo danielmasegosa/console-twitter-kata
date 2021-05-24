@@ -28,10 +28,11 @@ public class Application {
     public static final String QUIT_COMMAND = "quit";
 
     public static void main(String[] args) {
-        console().initTerminal();
+        initialization().startTerminal();
     }
 
-    private void initTerminal() {
+    private void startTerminal() {
+        printQuitInstructions();
         String terminalCommand = terminal.readLine();
         while (!QUIT_COMMAND.equals(terminalCommand)) {
             commandExecutor.execute(terminalCommand);
@@ -40,7 +41,11 @@ public class Application {
         terminal.write("Bye");
     }
 
-    public static Application console() {
+    private void printQuitInstructions() {
+        System.out.println("Write 'quit' to exit");
+    }
+
+    public static Application initialization() {
         final Clock clock = new InternalClock();
         final Scanner scanner = new Scanner(System.in);
         final Terminal terminal = new Terminal(clock, scanner);

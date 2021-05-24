@@ -19,18 +19,17 @@ public class Terminal {
         this.scanner = scanner;
     }
 
+    public String readLine() {
+        System.out.print("> ");
+        return scanner.nextLine();
+    }
+
     public void write(final List<Post> posts) {
         posts.forEach(this::write);
     }
 
     public void write(final String text) {
         System.out.println(text);
-    }
-
-    public String readLine() {
-        System.out.println("Write 'quit' to exit");
-        System.out.print("> ");
-        return scanner.nextLine();
     }
 
     private void write(final Post post) {
