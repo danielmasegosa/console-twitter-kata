@@ -2,6 +2,7 @@ package com.danielmasegosa.infrastructure.persistence;
 
 import com.danielmasegosa.domain.Post;
 import com.danielmasegosa.domain.User;
+import com.danielmasegosa.domain.exceptions.UserNotFound;
 import com.danielmasegosa.domain.repository.UserRepository;
 import com.danielmasegosa.infrastructure.persistence.document.PostDocument;
 
@@ -25,7 +26,7 @@ public final class InMemoryUserRepository implements UserRepository {
     }
 
     @Override
-    public List<Post> retrieveMessageByUser(final User user) {
+    public List<Post> retrieveMessageByUser(final User user) throws UserNotFound {
         return inMemoryRepository.findPostsByUserName(user.getUserName())
                 .stream()
                 .map(PostDocument::toDomain)
@@ -34,12 +35,12 @@ public final class InMemoryUserRepository implements UserRepository {
     }
 
     @Override
-    public void saveSubscription(final User follower, User followee) {
+    public void saveSubscription(final User follower, User followee) throws UserNotFound{
         inMemoryRepository.saveSubscription(follower.getUserName(), followee.getUserName());
     }
 
     @Override
-    public List<Post> retrieveUserWall(final User user) {
+    public List<Post> retrieveUserWall(final User user) throws UserNotFound{
         return inMemoryRepository.findByUserName(user.getUserName())
             .map(userDocument -> {
                 var userPosts = new ArrayList<>(userDocument.getPosts());

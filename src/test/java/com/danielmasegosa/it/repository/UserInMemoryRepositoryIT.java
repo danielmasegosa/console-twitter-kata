@@ -2,6 +2,7 @@ package com.danielmasegosa.it.repository;
 
 import com.danielmasegosa.domain.Post;
 import com.danielmasegosa.domain.User;
+import com.danielmasegosa.domain.exceptions.UserNotFound;
 import com.danielmasegosa.domain.repository.UserRepository;
 import com.danielmasegosa.infrastructure.persistence.InMemoryRepository;
 import com.danielmasegosa.infrastructure.persistence.InMemoryUserRepository;
@@ -10,6 +11,7 @@ import com.danielmasegosa.infrastructure.persistence.document.UserDocument;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import java.time.Instant;
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.Optional;
 import static com.danielmasegosa.fixtures.UserFixture.followee;
 import static com.danielmasegosa.fixtures.UserFixture.user;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 public final class UserInMemoryRepositoryIT {
@@ -91,15 +94,15 @@ public final class UserInMemoryRepositoryIT {
     }
 
     @Test
-    void should_return_an_empty_posts_list_when_doesnt_exist_post_for_the_required_user() {
+    void should_throw_an_user_not_found_exception_when_doesnt_exist_post_for_the_required_user() {
         // given
         final var aUser = new User("aUserName");
 
         // when
-        List<Post> posts = subject.retrieveMessageByUser(aUser);
+        final Executable executable = () -> subject.retrieveMessageByUser(aUser);
 
         // then
-        assertThat(posts).isEmpty();
+        assertThrows(UserNotFound.class, executable);
     }
 
     @Test
@@ -122,7 +125,20 @@ public final class UserInMemoryRepositoryIT {
     }
 
     @Test
-    void should_not_subscribe_if_the_user_doesnt_exist() {
+    void should_throw_an_user_not_found_exception_if_the_user__doesnt_exist() {
+        // given
+        final User aSubscriberUser = new User("aSubscriberUser");
+        final User aFolloweeUser = new User("aFolloweeUser");
+
+        // when
+        final Executable executable = () -> subject.saveSubscription(aSubscriberUser, aFolloweeUser);
+
+        // then
+        assertThrows(UserNotFound.class, executable);
+    }
+
+    @Test
+    void should_throw_an_user_not_found_exception_if_the_user_to_subscribe_doesnt_exist() {
         // given
         final User aSubscriberUser = new User("aSubscriberUser");
         final User aFolloweeUser = new User("aFolloweeUser");
@@ -130,13 +146,10 @@ public final class UserInMemoryRepositoryIT {
         subject.savePost(new Post(aSubscriberUser, "aMessage", Instant.parse("2021-05-22T00:10:00Z")));
 
         // when
-        subject.saveSubscription(aSubscriberUser, aFolloweeUser);
+        final Executable executable = () -> subject.saveSubscription(aSubscriberUser, aFolloweeUser);
 
         // then
-        final Optional<UserDocument> maybeUserName = inMemoryRepository.findByUserName(aSubscriberUser.getUserName());
-        Assertions.assertTrue(maybeUserName.isPresent());
-        final UserDocument user = maybeUserName.get();
-        assertThat(user.getSubscribedTo()).isEmpty();
+        assertThrows(UserNotFound.class, executable);
     }
 
     @Test
@@ -162,5 +175,16 @@ public final class UserInMemoryRepositoryIT {
                 new Post(aUser, "aMessage", Instant.parse("2021-05-22T00:10:00Z")),
                 new Post(aFollowee, "aMessage", Instant.parse("2021-05-22T00:10:00Z"))
         );
+    }
+
+    @Test
+    void should_throw_an_user_not_found_exception_when_the_user_doesnt_exist() {
+        // given
+        final var aUser = user;
+
+        final Executable executable = () -> subject.retrieveUserWall(aUser);
+
+        // then
+        assertThrows(UserNotFound.class, executable);
     }
 }

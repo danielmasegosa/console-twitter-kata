@@ -2,6 +2,7 @@ package com.danielmasegosa.infrastructure.terminal.commands;
 
 import com.danielmasegosa.application.UserWallRetriever;
 import com.danielmasegosa.domain.User;
+import com.danielmasegosa.domain.exceptions.UserNotFound;
 import com.danielmasegosa.infrastructure.terminal.Terminal;
 import com.danielmasegosa.infrastructure.terminal.commands.dto.RequestWallDto;
 import com.danielmasegosa.infrastructure.terminal.commands.dto.validation.Notification;
@@ -21,10 +22,14 @@ public class ViewWallTerminalCommand implements TerminalCommand {
     @Override
     public void execute() {
         final Notification check = requestWallDto.check();
-        if (check.hasErrors()){
+        if (check.hasErrors()) {
             terminal.writeErrors(check.getErrors());
         } else {
-            terminal.write(userWallRetriever.execute(new User(requestWallDto.getUserName().trim())));
+            try {
+                terminal.write(userWallRetriever.execute(new User(requestWallDto.getUserName().trim())));
+            } catch (UserNotFound oops) {
+                terminal.writeError(oops.getMessage());
+            }
         }
     }
 }

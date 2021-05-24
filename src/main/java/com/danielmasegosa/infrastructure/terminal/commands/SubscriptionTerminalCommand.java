@@ -2,6 +2,7 @@ package com.danielmasegosa.infrastructure.terminal.commands;
 
 import com.danielmasegosa.application.UserSubscriber;
 import com.danielmasegosa.domain.User;
+import com.danielmasegosa.domain.exceptions.UserNotFound;
 import com.danielmasegosa.infrastructure.terminal.Terminal;
 import com.danielmasegosa.infrastructure.terminal.commands.dto.SubscribtioDto;
 import com.danielmasegosa.infrastructure.terminal.commands.dto.validation.Notification;
@@ -24,7 +25,11 @@ public class SubscriptionTerminalCommand implements TerminalCommand {
         if (check.hasErrors()) {
             terminal.writeErrors(check.getErrors());
         } else {
-            userSubscriber.execute(new User(subscriptionDto.getUserName().trim()), new User(subscriptionDto.getSubscribeTo().trim()));
+            try {
+                userSubscriber.execute(new User(subscriptionDto.getUserName().trim()), new User(subscriptionDto.getSubscribeTo().trim()));
+            } catch (UserNotFound oops){
+                terminal.writeError(oops.getMessage());
+            }
         }
     }
 }

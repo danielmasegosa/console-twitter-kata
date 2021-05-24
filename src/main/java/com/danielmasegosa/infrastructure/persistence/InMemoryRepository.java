@@ -1,6 +1,7 @@
 package com.danielmasegosa.infrastructure.persistence;
 
 
+import com.danielmasegosa.domain.exceptions.UserNotFound;
 import com.danielmasegosa.infrastructure.persistence.document.PostDocument;
 import com.danielmasegosa.infrastructure.persistence.document.UserDocument;
 
@@ -10,8 +11,12 @@ public class InMemoryRepository {
 
     private final Map<String, UserDocument> users = new HashMap<>();
 
-    public Optional<UserDocument> findByUserName(final String user) {
-        return Optional.ofNullable(users.get(user));
+    public Optional<UserDocument> findByUserName(final String user) throws UserNotFound {
+        final Optional<UserDocument> maybeUser = Optional.ofNullable(users.get(user));
+        if(maybeUser.isEmpty()){
+            throw new UserNotFound(user);
+        }
+        return maybeUser;
     }
 
     public void savePost(final PostDocument post) {
@@ -24,25 +29,29 @@ public class InMemoryRepository {
         }
     }
 
-    public void saveSubscription(final String subscriber, String followee) {
-        Optional.of(users.get(subscriber))
-            .ifPresent(userDocument -> findByUserName(followee)
-                .ifPresent(followeeDocument -> {
-                    final Set<String> subscribedTo = new HashSet<>(userDocument.getSubscribedTo());
-                    subscribedTo.add(followee);
-                    final UserDocument updatedUser = userDocument.withSubscribers(subscribedTo);
-                    users.put(subscriber, updatedUser);
-                })
+    public void saveSubscription(final String subscriberName, String followeeName) throws UserNotFound{
+        Optional.ofNullable(users.get(subscriberName))
+            .ifPresentOrElse(
+                userDocument -> findByUserName(followeeName)
+                    .ifPresentOrElse(
+                        followee -> {
+                            final Set<String> subscribedTo = new HashSet<>(userDocument.getSubscribedTo());
+                            subscribedTo.add(followee.getUserName());
+                            final UserDocument updatedUser = userDocument.withSubscribers(subscribedTo);
+                            users.put(userDocument.getUserName(), updatedUser);
+                        },
+                        () -> {throw new UserNotFound(subscriberName);}
+                    ),
+                () -> {throw new UserNotFound(subscriberName);}
             );
-
     }
 
-    public List<PostDocument> findPostsByUserName(final String userName) {
-        return Optional.ofNullable(users.get(userName)).map(UserDocument::getPosts).orElse(List.of());
-    }
-
-    public Set<UserDocument> findSubscriptionsByUser(final String userName) {
-        throw new UnsupportedOperationException("Not implemented!");
+    public List<PostDocument> findPostsByUserName(final String userName) throws UserNotFound{
+        return Optional.ofNullable(users.get(userName))
+                .map(UserDocument::getPosts)
+                .orElseThrow(() -> {
+                    throw new UserNotFound(userName);
+                });
     }
 
     public void clear() {

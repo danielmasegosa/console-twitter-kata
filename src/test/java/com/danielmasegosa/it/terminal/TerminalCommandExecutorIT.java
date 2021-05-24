@@ -127,6 +127,18 @@ public final class TerminalCommandExecutorIT {
     }
 
     @Test
+    void should_print_an_error_when_the_user_doesnt_exist() {
+        // given
+        final String viewTimeLine = "Alice";
+
+        // when
+        subject.execute(viewTimeLine);
+
+        // then
+        verify(terminalSpy).writeError("Alice not found");
+    }
+
+    @Test
     void should_subscribe_to_a_user() {
         // given
         final String followsCommand = "Charlie follows Alice";
@@ -141,6 +153,38 @@ public final class TerminalCommandExecutorIT {
         assertTrue(maybeUser.isPresent());
         final UserDocument userDocument = maybeUser.get();
         assertThat(userDocument.getSubscribedTo()).contains("Alice");
+    }
+
+    @Test
+    void should_print_an_error_when_the_subscriber_doesnt_exist() {
+        // given
+        final String viewTimeLine = "Charlie follows Alice";
+
+        doNothing().when(terminalSpy).writeError(anyString());
+
+        // when
+        subject.execute(viewTimeLine);
+
+        // then
+        verify(terminalSpy).writeError("Charlie not found");
+    }
+
+    @Test
+    void should_print_an_error_when_the_followee_doesnt_exist() {
+        // given
+        final String viewTimeLine = "Charlie follows Alice";
+
+        given(clock.now()).willReturn(Instant.parse("2021-05-22T00:05:00Z"));
+        final String registerAlicePostCommand = "Charlie -> I love the weather today";
+        subject.execute(registerAlicePostCommand);
+
+        doNothing().when(terminalSpy).writeError(anyString());
+
+        // when
+        subject.execute(viewTimeLine);
+
+        // then
+        verify(terminalSpy).writeError("Alice not found");
     }
 
     @Test
@@ -227,9 +271,23 @@ public final class TerminalCommandExecutorIT {
     }
 
     @Test
+    void should_print_an_error_message_when_the_username_doesnt_exist() {
+        // given
+        final String followsCommand = "Charlie follows ";
+
+        doNothing().when(terminalSpy).writeError(anyString());
+
+        // when
+        subject.execute(followsCommand);
+
+        // then
+        verify(terminalSpy).writeError("Followee username cannot be empty");
+    }
+
+    @Test
     void should_print_an_error_message_when_the_username_is_empty_in_wall_command() {
         // given
-        final String wallCommand = " wall";
+        final String wallCommand = "Charlie wall";
 
         doNothing().when(terminalSpy).writeError(anyString());
 
@@ -237,7 +295,7 @@ public final class TerminalCommandExecutorIT {
         subject.execute(wallCommand);
 
         // then
-        verify(terminalSpy).writeError("Username cannot be empty");
+        verify(terminalSpy).writeError("Charlie not found");
     }
 
     @Test

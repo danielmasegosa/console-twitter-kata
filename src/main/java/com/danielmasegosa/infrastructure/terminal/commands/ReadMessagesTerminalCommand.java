@@ -2,6 +2,7 @@ package com.danielmasegosa.infrastructure.terminal.commands;
 
 import com.danielmasegosa.application.MessagesRetriever;
 import com.danielmasegosa.domain.User;
+import com.danielmasegosa.domain.exceptions.UserNotFound;
 import com.danielmasegosa.infrastructure.terminal.Terminal;
 import com.danielmasegosa.infrastructure.terminal.commands.dto.RetrieveMessagesDto;
 
@@ -18,6 +19,10 @@ public class ReadMessagesTerminalCommand implements TerminalCommand {
 
     @Override
     public void execute() {
-        terminal.write(messagesRetriever.execute(new User(retrieveMessagesDto.getUserName())));
+        try{
+            terminal.write(messagesRetriever.execute(new User(retrieveMessagesDto.getUserName())));
+        } catch (UserNotFound oops) {
+            terminal.writeError(oops.getMessage());
+        }
     }
 }
