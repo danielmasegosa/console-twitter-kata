@@ -131,6 +131,8 @@ public final class TerminalCommandExecutorIT {
         // given
         final String viewTimeLine = "Alice";
 
+        doNothing().when(terminalSpy).writeError(anyString());
+
         // when
         subject.execute(viewTimeLine);
 

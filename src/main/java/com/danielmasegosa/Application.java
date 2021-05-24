@@ -31,7 +31,7 @@ public class Application {
         initialization().startTerminal();
     }
 
-    private void startTerminal() {
+    public void startTerminal() {
         printQuitInstructions();
         String terminalCommand = terminal.readLine();
         while (!QUIT_COMMAND.equals(terminalCommand)) {

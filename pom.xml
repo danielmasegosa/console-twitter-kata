@@ -40,6 +40,24 @@
             <version>${assertj.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>6.10.4</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.ocpsoft.prettytime</groupId>
+                    <artifactId>prettytime</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>6.10.4</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -60,8 +78,8 @@
                 <configuration>
                     <includes>
                         <include>**/*IT.java</include>
-                        <include>**/*ITCase.java</include>
                         <include>**/*Test.java</include>
+                        <include>**/*AcceptanceTests.java</include>
                     </includes>
                 </configuration>
             </plugin>
