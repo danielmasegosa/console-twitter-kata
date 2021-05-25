@@ -76,7 +76,9 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
                 <configuration>
+                    <reportFormat>plain</reportFormat>
                     <includes>
+                        <include>**/*E2E.java</include>
                         <include>**/*IT.java</include>
                         <include>**/*Test.java</include>
                         <include>**/*AcceptanceTests.java</include>
