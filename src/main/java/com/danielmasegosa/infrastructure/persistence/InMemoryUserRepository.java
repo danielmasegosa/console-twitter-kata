@@ -30,7 +30,7 @@ public final class InMemoryUserRepository implements UserRepository {
         return inMemoryRepository.findPostsByUserName(user.getUserName())
                 .stream()
                 .map(postDocument -> new Post(user, postDocument.getMessage(), postDocument.getCreationDate()))
-                .sorted(Comparator.comparing(Post::getCreationDate))
+                .sorted(Comparator.comparing(Post::getCreationDate).reversed())
                 .collect(Collectors.toList());
     }
 
@@ -53,7 +53,7 @@ public final class InMemoryUserRepository implements UserRepository {
                                     .map(PostDocument.toDomain(followeeName))
                                     .collect(Collectors.toList())));
                     return userPosts.stream()
-                            .sorted(Comparator.comparing(Post::getCreationDate))
+                            .sorted(Comparator.comparing(Post::getCreationDate).reversed())
                             .collect(Collectors.toList());
                 })
                 .orElse(Collections.emptyList());

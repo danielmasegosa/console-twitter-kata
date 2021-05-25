@@ -51,9 +51,9 @@ public final class ViewWallSteps {
     public void all_the_message_of_a_user_and_his_followee_are_retrieved() {
         final List<Post> posts = world.getPosts();
         assertThat(posts).hasSize(2);
-        assertThat(posts.get(0).getUser().getUserName()).isEqualTo("Alice");
-        assertThat(posts.get(0).getMessage()).isEqualTo("I love the weather today");
-        assertThat(posts.get(1).getUser().getUserName()).isEqualTo("Charlie");
-        assertThat(posts.get(1).getMessage()).isEqualTo("I'm in New York today! Anyone want to have a coffee?");
+        assertThat(posts.get(0).getUser().getUserName()).isEqualTo("Charlie");
+        assertThat(posts.get(0).getMessage()).isEqualTo("I'm in New York today! Anyone want to have a coffee?");
+        assertThat(posts.get(1).getUser().getUserName()).isEqualTo("Alice");
+        assertThat(posts.get(1).getMessage()).isEqualTo("I love the weather today");
     }
 }

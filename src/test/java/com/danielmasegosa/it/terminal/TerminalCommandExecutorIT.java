@@ -266,9 +266,9 @@ public final class TerminalCommandExecutorIT {
         // then
         final List<Post> charlieWall = userWallRetrieverSpy.execute(new User("Charlie"));
         assertThat(charlieWall).containsExactly(
-                new Post(new User("Alice"), "I love the weather today", Instant.parse("2021-05-22T00:05:00Z")),
+                new Post(new User("Charlie"), "I'm in New York today! Anyone want to have a coffee?", Instant.parse("2021-05-22T00:20:00Z")),
                 new Post(new User("Alice"), "I love the weather today again", Instant.parse("2021-05-22T00:15:00Z")),
-                new Post(new User("Charlie"), "I'm in New York today! Anyone want to have a coffee?", Instant.parse("2021-05-22T00:20:00Z"))
+                new Post(new User("Alice"), "I love the weather today", Instant.parse("2021-05-22T00:05:00Z"))
         );
     }
 
