@@ -22,35 +22,41 @@ public final class InMemoryUserRepository implements UserRepository {
 
     @Override
     public void savePost(final Post post) {
-        inMemoryRepository.savePost(PostDocument.fromDomain(post));
+        inMemoryRepository.savePost(post.getUser(), PostDocument.fromDomain(post));
     }
 
     @Override
     public List<Post> retrieveMessageByUser(final User user) throws UserNotFound {
         return inMemoryRepository.findPostsByUserName(user.getUserName())
                 .stream()
-                .map(PostDocument::toDomain)
+                .map(postDocument -> new Post(user, postDocument.getMessage(), postDocument.getCreationDate()))
                 .sorted(Comparator.comparing(Post::getCreationDate))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void saveSubscription(final User follower, User followee) throws UserNotFound{
+    public void saveSubscription(final User follower, User followee) throws UserNotFound {
         inMemoryRepository.saveSubscription(follower.getUserName(), followee.getUserName());
     }
 
     @Override
-    public List<Post> retrieveUserWall(final User user) throws UserNotFound{
+    public List<Post> retrieveUserWall(final User user) throws UserNotFound {
         return inMemoryRepository.findByUserName(user.getUserName())
-            .map(userDocument -> {
-                var userPosts = new ArrayList<>(userDocument.getPosts());
-                userDocument.getSubscribedTo()
-                    .forEach(followeeName -> userPosts.addAll(inMemoryRepository.findPostsByUserName(followeeName)));
-                return userPosts.stream()
-                        .map(PostDocument::toDomain)
-                        .sorted(Comparator.comparing(Post::getCreationDate))
-                        .collect(Collectors.toList());
-            })
-            .orElse(Collections.emptyList());
+                .map(userDocument -> {
+                    var userPosts = userDocument.getPosts()
+                            .stream()
+                            .map(PostDocument.toDomain(userDocument.getUserName()))
+                            .collect(Collectors.toCollection(ArrayList::new));
+                    userDocument.getSubscribedTo()
+                            .forEach(followeeName -> userPosts.addAll(inMemoryRepository.findPostsByUserName(followeeName)
+                                    .stream()
+                                    .map(PostDocument.toDomain(followeeName))
+                                    .collect(Collectors.toList())));
+                    return userPosts.stream()
+                            .sorted(Comparator.comparing(Post::getCreationDate))
+                            .collect(Collectors.toList());
+                })
+                .orElse(Collections.emptyList());
     }
+
 }

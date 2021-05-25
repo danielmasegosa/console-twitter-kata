@@ -1,6 +1,7 @@
 package com.danielmasegosa.infrastructure.persistence;
 
 
+import com.danielmasegosa.domain.User;
 import com.danielmasegosa.domain.exceptions.UserNotFound;
 import com.danielmasegosa.infrastructure.persistence.document.PostDocument;
 import com.danielmasegosa.infrastructure.persistence.document.UserDocument;
@@ -19,13 +20,13 @@ public class InMemoryRepository {
         return maybeUser;
     }
 
-    public void savePost(final PostDocument post) {
-        Optional<UserDocument> maybeUser = Optional.ofNullable(users.get(post.getUserName()));
+    public void savePost(User user, final PostDocument post) {
+        Optional<UserDocument> maybeUser = Optional.ofNullable(users.get(user.getUserName()));
         if (maybeUser.isPresent()) {
             updateUserAndSave(post, maybeUser.get());
         } else {
-            UserDocument updatedUser = new UserDocument(post.getUserName(), List.of(post), Collections.emptySet());
-            users.put(post.getUserName(), updatedUser);
+            UserDocument updatedUser = new UserDocument(user.getUserName(), List.of(post), Collections.emptySet());
+            users.put(user.getUserName(), updatedUser);
         }
     }
 

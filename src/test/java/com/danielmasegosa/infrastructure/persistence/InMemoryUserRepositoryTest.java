@@ -37,8 +37,7 @@ public final class InMemoryUserRepositoryTest {
 
         // then
         verify(inMemoryRepository)
-                .savePost(new PostDocument(
-                        user.getUserName(),
+                .savePost(aPost.getUser(), new PostDocument(
                         "aMessage",
                         Instant.parse("2021-05-22T00:05:00Z")
                 ));
@@ -52,8 +51,8 @@ public final class InMemoryUserRepositoryTest {
         given(inMemoryRepository.findPostsByUserName(user.getUserName()))
                 .willReturn(
                         List.of(
-                                new PostDocument(user.getUserName(), "aMessage", Instant.parse("2021-05-22T00:05:00Z")),
-                                new PostDocument(user.getUserName(), "aMessage", Instant.parse("2021-05-22T00:10:00Z")))
+                                new PostDocument("aMessage", Instant.parse("2021-05-22T00:05:00Z")),
+                                new PostDocument("aMessage", Instant.parse("2021-05-22T00:10:00Z")))
                 );
 
         // when
@@ -89,8 +88,8 @@ public final class InMemoryUserRepositoryTest {
         given(inMemoryRepository.findByUserName(user.getUserName())).willReturn(
                 Optional.of(new UserDocument(
                                 user.getUserName(),
-                                List.of(new PostDocument(user.getUserName(), "aMessage", Instant.parse("2021-05-22T00:06:00Z")),
-                                        new PostDocument(user.getUserName(), "aMessage", Instant.parse("2021-05-21T23:55:00Z"))
+                                List.of(new PostDocument("aMessage", Instant.parse("2021-05-22T00:06:00Z")),
+                                        new PostDocument("aMessage", Instant.parse("2021-05-21T23:55:00Z"))
                                 ),
                                 Set.of(aFollowee.getUserName(),
                                         anotherFollowee.getUserName())
@@ -98,8 +97,8 @@ public final class InMemoryUserRepositoryTest {
                 )
         );
 
-        given(inMemoryRepository.findPostsByUserName("aFollowee")).willReturn(List.of(new PostDocument("aFollowee", "aMessage", Instant.parse("2021-05-22T00:10:00Z"))));
-        given(inMemoryRepository.findPostsByUserName("anotherFollowee")).willReturn(List.of(new PostDocument("anotherFollowee", "aMessage", Instant.parse("2021-05-22T00:05:00Z"))));
+        given(inMemoryRepository.findPostsByUserName("aFollowee")).willReturn(List.of(new PostDocument("aMessage", Instant.parse("2021-05-22T00:10:00Z"))));
+        given(inMemoryRepository.findPostsByUserName("anotherFollowee")).willReturn(List.of(new PostDocument("aMessage", Instant.parse("2021-05-22T00:05:00Z"))));
 
         // when
         final List<Post> posts = subject.retrieveUserWall(aUser);
@@ -121,8 +120,8 @@ public final class InMemoryUserRepositoryTest {
         given(inMemoryRepository.findByUserName(user.getUserName())).willReturn(
                 Optional.of(new UserDocument(
                                 user.getUserName(),
-                                List.of(new PostDocument(user.getUserName(), "aMessage", Instant.parse("2021-05-22T00:06:00Z")),
-                                        new PostDocument(user.getUserName(), "aMessage", Instant.parse("2021-05-21T23:55:00Z"))
+                                List.of(new PostDocument("aMessage", Instant.parse("2021-05-22T00:06:00Z")),
+                                        new PostDocument("aMessage", Instant.parse("2021-05-21T23:55:00Z"))
                                 ),
                                 Set.of()
                         )

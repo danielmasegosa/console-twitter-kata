@@ -5,21 +5,16 @@ import com.danielmasegosa.domain.User;
 
 import java.time.Instant;
 import java.util.Objects;
+import java.util.function.Function;
 
 public final class PostDocument {
 
-    private final String userName;
     private final String message;
     private Instant creationDate;
 
-    public PostDocument(final String userName, final String message, Instant creationDate) {
-        this.userName = userName;
+    public PostDocument(final String message, Instant creationDate) {
         this.message = message;
         this.creationDate = creationDate;
-    }
-
-    public String getUserName() {
-        return userName;
     }
 
     public String getMessage() {
@@ -31,11 +26,11 @@ public final class PostDocument {
     }
 
     public static PostDocument fromDomain(final Post post) {
-        return new PostDocument(post.getUser().getUserName(), post.getMessage(), post.getCreationDate());
+        return new PostDocument(post.getMessage(), post.getCreationDate());
     }
 
-    public static Post toDomain(final PostDocument postDocument) {
-        return new Post(new User(postDocument.userName), postDocument.message, postDocument.creationDate);
+    public static Function<PostDocument, Post> toDomain(final String username) {
+        return postDocument -> new Post(new User(username), postDocument.getMessage(), postDocument.getCreationDate());
     }
 
     @Override
@@ -43,19 +38,18 @@ public final class PostDocument {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PostDocument that = (PostDocument) o;
-        return Objects.equals(userName, that.userName) && Objects.equals(message, that.message) && Objects.equals(creationDate, that.creationDate);
+        return Objects.equals(message, that.message) && Objects.equals(creationDate, that.creationDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userName, message, creationDate);
+        return Objects.hash(message, creationDate);
     }
 
     @Override
     public String toString() {
         return "PostDocument{" +
-                "userName='" + userName + '\'' +
-                ", message='" + message + '\'' +
+                "message='" + message + '\'' +
                 ", creationDate=" + creationDate +
                 '}';
     }

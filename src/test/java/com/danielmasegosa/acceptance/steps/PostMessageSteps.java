@@ -45,7 +45,6 @@ public final class PostMessageSteps {
     public void the_posts_for_the_user_are_stored() {
         final List<PostDocument> posts = inMemoryRepository.findPostsByUserName("Alice");
         assertThat(posts).hasSize(1);
-        assertThat(posts.get(0).getUserName()).isEqualTo("Alice");
         assertThat(posts.get(0).getMessage()).isEqualTo("I love the weather today");
     }
 }

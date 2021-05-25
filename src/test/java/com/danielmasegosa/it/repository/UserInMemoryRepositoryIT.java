@@ -56,7 +56,7 @@ public final class UserInMemoryRepositoryIT {
 
         // then
         List<PostDocument> userPosts = inMemoryRepository.findPostsByUserName(user.getUserName());
-        assertThat(userPosts).contains(new PostDocument("aUserName", "aMessage", Instant.parse("2021-05-22T00:05:00Z")));
+        assertThat(userPosts).contains(new PostDocument("aMessage", Instant.parse("2021-05-22T00:05:00Z")));
     }
 
     @Test
@@ -72,8 +72,8 @@ public final class UserInMemoryRepositoryIT {
         // then
         List<PostDocument> userPosts = inMemoryRepository.findPostsByUserName(user.getUserName());
         assertThat(userPosts).contains(
-                new PostDocument("aUserName", "aMessage", Instant.parse("2021-05-22T00:05:00Z")),
-                new PostDocument("aUserName", "aMessage", Instant.parse("2021-05-22T00:10:00Z"))
+                new PostDocument("aMessage", Instant.parse("2021-05-22T00:05:00Z")),
+                new PostDocument("aMessage", Instant.parse("2021-05-22T00:10:00Z"))
         );
     }
 

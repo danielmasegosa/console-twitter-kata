@@ -64,7 +64,7 @@ public final class TerminalCommandExecutorIT {
 
         // then
         final List<PostDocument> alicePosts = inMemoryRepository.findPostsByUserName("Alice");
-        assertThat(alicePosts).contains(new PostDocument("Alice", "I love the weather today", Instant.parse("2021-05-22T00:05:00Z")));
+        assertThat(alicePosts).contains(new PostDocument("I love the weather today", Instant.parse("2021-05-22T00:05:00Z")));
     }
 
     @Test
