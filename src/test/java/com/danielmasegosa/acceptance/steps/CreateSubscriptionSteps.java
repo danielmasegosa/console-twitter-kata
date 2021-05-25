@@ -6,7 +6,6 @@ import com.danielmasegosa.domain.User;
 import com.danielmasegosa.infrastructure.persistence.InMemoryRepository;
 import com.danielmasegosa.infrastructure.persistence.InMemoryUserRepository;
 import com.danielmasegosa.infrastructure.persistence.document.UserDocument;
-import com.danielmasegosa.infrastructure.time.InternalClock;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -21,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public final class CreateSubscriptionSteps {
 
     private final World world = new World();
-    private final InternalClock clock = new InternalClock();
     private final InMemoryRepository inMemoryRepository = new InMemoryRepository();
     private final InMemoryUserRepository userRepository = new InMemoryUserRepository(inMemoryRepository);
     private final UserSubscriber userSubscriber = new UserSubscriber(userRepository);

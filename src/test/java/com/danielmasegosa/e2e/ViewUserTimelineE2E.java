@@ -5,12 +5,10 @@ import com.danielmasegosa.application.MessagesRetriever;
 import com.danielmasegosa.application.PostCreator;
 import com.danielmasegosa.application.UserSubscriber;
 import com.danielmasegosa.application.UserWallRetriever;
-import com.danielmasegosa.domain.User;
 import com.danielmasegosa.domain.repository.UserRepository;
 import com.danielmasegosa.domain.time.Clock;
 import com.danielmasegosa.infrastructure.persistence.InMemoryRepository;
 import com.danielmasegosa.infrastructure.persistence.InMemoryUserRepository;
-import com.danielmasegosa.infrastructure.persistence.document.PostDocument;
 import com.danielmasegosa.infrastructure.terminal.Terminal;
 import com.danielmasegosa.infrastructure.terminal.commands.CommandExecutor;
 import com.danielmasegosa.infrastructure.terminal.commands.CommandGenerator;
@@ -22,7 +20,6 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.time.Instant;
 import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -57,13 +54,6 @@ public final class ViewUserTimelineE2E {
 
         // then
         assertTrue(outContent.toString().contains("Alice - I love the weather today"));
-    }
-
-    private void arrangeTest() {
-        inMemoryRepository.savePost(new User(
-                        "Alice"),
-                new PostDocument("I love the weather today", Instant.parse("2021-05-22T12:05:00Z"))
-        );
     }
 
     public Application initialization(final String command) {

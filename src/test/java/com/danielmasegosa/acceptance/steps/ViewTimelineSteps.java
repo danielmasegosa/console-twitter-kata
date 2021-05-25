@@ -5,7 +5,6 @@ import com.danielmasegosa.domain.Post;
 import com.danielmasegosa.domain.User;
 import com.danielmasegosa.infrastructure.persistence.InMemoryRepository;
 import com.danielmasegosa.infrastructure.persistence.InMemoryUserRepository;
-import com.danielmasegosa.infrastructure.persistence.document.PostDocument;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
